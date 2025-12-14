@@ -223,6 +223,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2512387470528047719, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1705583529}
+    - targetCorrespondingSourceObject: {fileID: 2512387469002778309, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: 48cb3fb68c91eb94999fd99957eb0cae, type: 3}
 --- !u!114 &331264286 stripped
 MonoBehaviour:
@@ -650,6 +653,7 @@ MonoBehaviour:
   trackedImageManager: {fileID: 1705583530}
   placeablePrefabs:
   - {fileID: 1855781180}
+  - {fileID: 8699643451734114849, guid: 8a7ba4165e82e264294d8922c0437a12, type: 3}
 --- !u!114 &1705583530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -666,7 +670,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_SerializedLibrary: {fileID: 11400000, guid: 8e361b7058d69ac49ab516b623a74096, type: 2}
-  m_MaxNumberOfMovingImages: 1
+  m_MaxNumberOfMovingImages: 2
   m_TrackedImagePrefab: {fileID: 0}
 --- !u!114 &1756042878 stripped
 MonoBehaviour:

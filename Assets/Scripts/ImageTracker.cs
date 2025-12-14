@@ -3,71 +3,86 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
-
 public class ImageTracker : MonoBehaviour
 {
-    [SerializeField]
-    private ARTrackedImageManager trackedImageManager;
+    [SerializeField] private ARTrackedImageManager trackedImageManager;
+    [SerializeField] private GameObject placeablePrefab; // single prefab
+    [SerializeField] private int spawnCount = 10;
+    [SerializeField] private float radius = 0.2f; // distance from image center
+    [SerializeField] private Vector3 prefabScale = new Vector3(2f, 2f, 2f);
 
-    [SerializeField]
-    private GameObject[] placeablePrefabs;
+    private List<GameObject> spawnedPrefabs = new List<GameObject>();
 
-    private Dictionary<string, GameObject> spawnedPrefabs = new Dictionary<string, GameObject>();
-
-    private void Start()
+    private void OnEnable()
     {
-        if (trackedImageManager != null)
-        {
-            trackedImageManager.trackablesChanged.AddListener(OnImageChanged);
-            SetupPrefabs();
-        }
+        trackedImageManager.trackedImagesChanged += OnImageChanged;
     }
 
-    void SetupPrefabs()
+    private void OnDisable()
     {
-        foreach (GameObject prefab in placeablePrefabs)
-        {
-            GameObject newPrefab = Instantiate(prefab, Vector3.zero, Quaternion.identity);
-            newPrefab.name = prefab.name;
-            newPrefab.SetActive(false);
-            spawnedPrefabs.Add(prefab.name, newPrefab);
-        }
+        trackedImageManager.trackedImagesChanged -= OnImageChanged;
     }
 
-    void OnImageChanged(ARTrackablesChangedEventArgs<ARTrackedImage> eventArgs)
+    private void OnImageChanged(ARTrackedImagesChangedEventArgs eventArgs)
     {
         foreach (ARTrackedImage trackedImage in eventArgs.added)
         {
-            UpdateImage(trackedImage);
+            SpawnModels(trackedImage);
         }
 
         foreach (ARTrackedImage trackedImage in eventArgs.updated)
         {
-            UpdateImage(trackedImage);
+            if (trackedImage.trackingState == TrackingState.Tracking)
+            {
+                UpdateModels(trackedImage);
+            }
+            else
+            {
+                SetModelsActive(false);
+            }
         }
 
-        foreach (KeyValuePair<TrackableId, ARTrackedImage> lostObj in eventArgs.removed)
+        foreach (ARTrackedImage trackedImage in eventArgs.removed)
         {
-            UpdateImage(lostObj.Value);
+            SetModelsActive(false);
         }
     }
 
-    void UpdateImage(ARTrackedImage trackedImage)
+    private void SpawnModels(ARTrackedImage trackedImage)
     {
-        if(trackedImage != null)
+        // Clear old instances if any
+        foreach (var go in spawnedPrefabs)
+            Destroy(go);
+        spawnedPrefabs.Clear();
+
+        for (int i = 0; i < spawnCount; i++)
         {
-            if (trackedImage.trackingState == TrackingState.Limited || trackedImage.trackingState == TrackingState.None)
-            {
-                //Disable the associated content
-                spawnedPrefabs[trackedImage.referenceImage.name].SetActive(false);
-            }
-            else if (trackedImage.trackingState == TrackingState.Tracking)
-            {
-                //Enable the associated content
-                spawnedPrefabs[trackedImage.referenceImage.name].transform.position = trackedImage.transform.position;
-                spawnedPrefabs[trackedImage.referenceImage.name].transform.rotation = trackedImage.transform.rotation;
-                spawnedPrefabs[trackedImage.referenceImage.name].SetActive(true);
-            }
+            float angle = i * Mathf.PI * 2f / spawnCount;
+            Vector3 offset = new Vector3(Mathf.Cos(angle) * radius, 0f, Mathf.Sin(angle) * radius);
+            Vector3 spawnPos = trackedImage.transform.position + offset;
+
+            GameObject newObj = Instantiate(placeablePrefab, spawnPos, Quaternion.identity);
+            newObj.transform.localScale = prefabScale;
+            spawnedPrefabs.Add(newObj);
+
+            Debug.Log($"Spawned '{placeablePrefab.name}' at {spawnPos} with scale {prefabScale}");
         }
+    }
+
+    private void UpdateModels(ARTrackedImage trackedImage)
+    {
+        for (int i = 0; i < spawnedPrefabs.Count; i++)
+        {
+            float angle = i * Mathf.PI * 2f / spawnCount;
+            Vector3 offset = new Vector3(Mathf.Cos(angle) * radius, 0f, Mathf.Sin(angle) * radius);
+            spawnedPrefabs[i].transform.position = trackedImage.transform.position + offset;
+            spawnedPrefabs[i].SetActive(true);
+        }
+    }
+
+    private void SetModelsActive(bool active)
+    {
+        foreach (var go in spawnedPrefabs)
+            go.SetActive(active);
     }
 }
