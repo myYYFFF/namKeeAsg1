@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1072971103885",
+    "firebase_url": "https://dda-2025-f1440-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "dda-2025-f1440",
+    "storage_bucket": "dda-2025-f1440.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072971103885:android:2103e07af9195d75466cc4",
+        "android_client_info": {
+          "package_name": "com.np.dda2025"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiw26EIECqlVioRcgcOFqeJmmEh-26BPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
