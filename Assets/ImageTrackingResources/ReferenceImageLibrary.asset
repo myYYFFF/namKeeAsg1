@@ -27,3 +27,13 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: logo
     m_Texture: {fileID: 0}
+  - m_SerializedGuid:
+      m_GuidLow: 5324485916471088273
+      m_GuidHigh: 3646927521203205783
+    m_SerializedTextureGuid:
+      m_GuidLow: 4239293409366812169
+      m_GuidHigh: 3176266968160819290
+    m_Size: {x: 0.5, y: 0.625}
+    m_SpecifySize: 1
+    m_Name: siewmai
+    m_Texture: {fileID: 0}
