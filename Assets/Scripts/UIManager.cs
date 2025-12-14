@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
 
-    //Screen object variables
+    [Header("UI Screens")]
     public GameObject loginUI;
     public GameObject registerUI;
 
@@ -16,20 +14,28 @@ public class UIManager : MonoBehaviour
         {
             instance = this;
         }
-        else if (instance != null)
+        else
         {
-            Debug.Log("Instance already exists, destroying object!");
-            Destroy(this);
+            Destroy(gameObject);
+            return;
         }
     }
 
-    //Functions to change the login screen UI
-    public void LoginScreen() //Back button
+    private void Start()
+    {
+        // Always start on Login screen
+        LoginScreen();
+    }
+
+    // Show Login UI (Back / After register)
+    public void LoginScreen()
     {
         loginUI.SetActive(true);
         registerUI.SetActive(false);
     }
-    public void RegisterScreen() // Regester button
+
+    // Show Register UI (Register button)
+    public void RegisterScreen()
     {
         loginUI.SetActive(false);
         registerUI.SetActive(true);
