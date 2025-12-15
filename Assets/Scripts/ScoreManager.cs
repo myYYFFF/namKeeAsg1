@@ -1,16 +1,19 @@
 using UnityEngine;
-using TMPro; // Needed for TextMeshPro
+using TMPro; 
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance { get; private set; }
     public int currentScore = 0;
+    public GameObject CanvasWin;
 
     [Header("UI Reference")]
-    public TextMeshProUGUI scoreText; // Assign a TMP Text component here
+    public TMP_Text scoreText; 
 
     void Awake()
     {
+        Debug.Log("I am here!");
+
         // Singleton pattern to ensure only one instance exists
         if (Instance != null && Instance != this)
         {
@@ -19,7 +22,7 @@ public class ScoreManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(this.gameObject); // Keep it across scenes if needed
+            DontDestroyOnLoad(this.gameObject); 
         }
     }
 
@@ -32,13 +35,19 @@ public class ScoreManager : MonoBehaviour
     {
         currentScore += points;
         UpdateScoreText();
+        
+        if(currentScore >= 10)
+        {
+            CanvasWin.SetActive(true);
+        }
     }
 
     private void UpdateScoreText()
     {
         if (scoreText != null)
         {
-            scoreText.text = "Score: " + currentScore.ToString();
+            scoreText.text = "Score: " + currentScore.ToString()+"/10";
         }
     }
+
 }
