@@ -1,11 +1,10 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using Firebase;
 using Firebase.Auth;
 using TMPro;
 using System.Threading.Tasks;
-using UnityEngine.SceneManagement;
-
+using UnityEngine.SceneManagement; 
 
 public class AuthManager : MonoBehaviour
 {
@@ -113,6 +112,7 @@ public class AuthManager : MonoBehaviour
             confirmLoginText.text = "Logged In";
         }
     }
+
 
     private IEnumerator Register(string _email, string _password, string _username)
     {
